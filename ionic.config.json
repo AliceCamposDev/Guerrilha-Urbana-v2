@@ -1,0 +1,7 @@
+{
+  "name": "Guerrilha-Urbana-v2",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
