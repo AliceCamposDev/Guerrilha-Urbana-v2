@@ -7,13 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   protected readonly appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Ficha', url: '/ficha', icon: 'document' },
+    { title: 'Livro', url: '/livro', icon: 'book' },
+    { title: 'Base de conhecimento', url: '/grafos', icon: 'library' },
   ];
-  protected readonly labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  protected readonly characters = ['Carlos Marighella', 'Marilene Vilas-Boas'];
   constructor() {}
 }
