@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { FichaPage } from './pages/ficha/ficha.page';
 
 const routes: Routes = [
   {
@@ -23,6 +22,10 @@ const routes: Routes = [
   {
     path: 'grafos',
     loadChildren: () => import('./pages/grafos/grafos.module').then( m => m.GrafosPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   }
 ];
 

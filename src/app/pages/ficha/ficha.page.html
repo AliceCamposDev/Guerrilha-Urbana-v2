@@ -1,7 +1,185 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-title>Ficha do Guerrilheiro Urbano</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="salvar()" title="Salvar ficha">
+        <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="limpar()" title="Nova ficha">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"> </ion-content>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form [formGroup]="fichaForm" (ngSubmit)="salvar()">
+
+    <!-- IDENTIDADE -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Identidade</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size="12" size-md="6">
+              <ion-input formControlName="nome" label="Nome civil"
+                labelPlacement="floating" fill="outline"
+                placeholder="Nome completo"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-md="6">
+              <ion-input formControlName="codinome" label="Codinome"
+                labelPlacement="floating" fill="outline"
+                placeholder="Nome de guerra"></ion-input>
+            </ion-col>
+            <ion-col size="6" size-md="3">
+              <ion-input type="number" formControlName="idade" label="Idade"
+                labelPlacement="floating" fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="6" size-md="4">
+              <ion-input formControlName="origem" label="Origem"
+                labelPlacement="floating" fill="outline"
+                placeholder="Cidade / país"></ion-input>
+            </ion-col>
+            <ion-col size="12" size-md="5">
+              <ion-input formControlName="ocupacao" label="Ocupação"
+                labelPlacement="floating" fill="outline"
+                placeholder="Profissão / disfarce"></ion-input>
+            </ion-col>
+            <ion-col size="12">
+              <ion-input formControlName="celula" label="Célula / Facção"
+                labelPlacement="floating" fill="outline"
+                placeholder="Organização a que pertence"></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- ATRIBUTOS -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Atributos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid class="ion-no-padding" formGroupName="atributos">
+          <ion-row>
+            <ion-col *ngFor="let attr of atributosList" size="6" size-md="4">
+              <ion-input type="number" [formControlName]="attr.key"
+                [label]="attr.label" labelPlacement="stacked"
+                fill="outline" min="0" max="10"></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- STATUS -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Status</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid class="ion-no-padding" formGroupName="status">
+          <ion-row>
+            <ion-col size="6" size-md="3">
+              <ion-input type="number" formControlName="pv" label="PV"
+                labelPlacement="stacked" fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="6" size-md="3">
+              <ion-input type="number" formControlName="pvMax" label="PV Máx."
+                labelPlacement="stacked" fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="6" size-md="3">
+              <ion-input type="number" formControlName="sanidade" label="Sanidade"
+                labelPlacement="stacked" fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="6" size-md="3">
+              <ion-input type="number" formControlName="sanidadeMax" label="San. Máx."
+                labelPlacement="stacked" fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="6" size-md="3">
+              <ion-input type="number" formControlName="iniciativa" label="Iniciativa"
+                labelPlacement="stacked" fill="outline"></ion-input>
+            </ion-col>
+            <ion-col size="6" size-md="3">
+              <ion-input type="number" formControlName="defesa" label="Defesa"
+                labelPlacement="stacked" fill="outline"></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- PERÍCIAS -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Perícias</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div formArrayName="pericias">
+          <ion-grid class="ion-no-padding">
+            <ion-row
+              *ngFor="let ctrl of pericias.controls; let i = index"
+              [formGroupName]="i">
+              <ion-col size="7">
+                <ion-input formControlName="nome" label="Perícia"
+                  labelPlacement="floating" fill="outline"
+                  placeholder="Nome da perícia"></ion-input>
+              </ion-col>
+              <ion-col size="3">
+                <ion-input type="number" formControlName="valor" label="Nível"
+                  labelPlacement="floating" fill="outline"></ion-input>
+              </ion-col>
+              <ion-col size="2" class="ion-align-self-center ion-text-center">
+                <ion-button fill="clear" color="danger"
+                  (click)="removerPericia(i)">
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+
+        <ion-button expand="block" fill="outline" (click)="adicionarPericia()">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          Adicionar Perícia
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- EQUIPAMENTO -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Equipamento</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-textarea formControlName="equipamento"
+          label="Armas, itens e recursos"
+          labelPlacement="floating" fill="outline"
+          [autoGrow]="true" [rows]="4"
+          placeholder="Liste o equipamento do guerrilheiro..."></ion-textarea>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- ANOTAÇÕES -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>História &amp; Anotações</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-textarea formControlName="anotacoes"
+          label="Background, missões, contatos..."
+          labelPlacement="floating" fill="outline"
+          [autoGrow]="true" [rows]="6"
+          placeholder="Escreva a história do personagem..."></ion-textarea>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" color="danger" type="submit" class="botao-salvar">
+      <ion-icon slot="start" name="save-outline"></ion-icon>
+      Salvar Ficha
+    </ion-button>
+  </form>
+</ion-content>
